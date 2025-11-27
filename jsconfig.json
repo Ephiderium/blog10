@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "strict": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["resources/js/*"]
+    }
+  },
+  "include": [
+    "resources/js/**/*.js",
+    "resources/js/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules",
+    "public"
+  ],
+  "vueCompilerOptions": {
+    "globalTypesPath": null
+  }
+}
