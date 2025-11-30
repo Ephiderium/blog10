@@ -7,9 +7,11 @@ use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Repositories\Interfaces\LikeRepositoryInterface;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\Interfaces\DataRepositoryInterface;
 use App\Repositories\LikeRepository;
 use App\Repositories\PostRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\DataRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -37,6 +39,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             LikeRepositoryInterface::class,
          LikeRepository::class
+        );
+
+        $this->app->bind(
+            DataRepositoryInterface::class,
+            DataRepository::class
         );
     }
 

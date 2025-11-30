@@ -20,7 +20,7 @@ class PostResource extends JsonResource
             'category' => $this->categories->first()->name,
             'author' => $this->when(!request()->routeIs(['users.show', 'users.index']),
                 UserResource::make($this->user)),
-            'comments' => $this->whenLoaded('comments'),
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
             'comments_count' => $this->whenCounted('comments'),
             'likes' => $this->whenCounted('likes'),
         ];

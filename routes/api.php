@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -16,8 +17,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts', [PostController::class,'index'])->name('posts.index');
     Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
     Route::post('/store', [PostController::class,'store'])->name('posts.store');
-    Route::patch('/update/{id}', [PostController::class,'update'])->name('posts.update');
-    Route::delete('/destroy/{id}', [PostController::class,'destroy'])->name('posts.destroy');
+    Route::patch('/posts/{id}', [PostController::class,'update'])->name('posts.update');
+    Route::delete('/posts/{id}', [PostController::class,'destroy'])->name('posts.destroy');
 
     Route::get('/comments/{id}', [CommentController::class,'show'])->name('comments.show');
     Route::post('/comments', [CommentController::class,'store'])->name('comments.store');
@@ -31,4 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users/email/{email}', [UserController::class,'showByEmail'])->name('users.show.email');
     Route::patch('/users/{id}', [UserController::class,'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class,'destroy'])->name('users.destroy');
+
+    Route::get('/categories', [DataController::class,'getCategories'])->name('getCategories');
 });

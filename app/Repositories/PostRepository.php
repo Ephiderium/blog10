@@ -20,12 +20,20 @@ class PostRepository implements PostRepositoryInterface
 
     public function all(): Collection
     {
-        return $this->model->with(['likes', 'categories'])->all();
+        return $this->model
+        ->withCount('likes')
+        ->with('comments')
+        ->withCount('comments')
+        ->all();
     }
 
     public function find(int $id): Post
     {
-        return $this->model->with(['likes', 'categories'])->find($id);
+        return $this->model
+        ->withCount('likes')
+        ->with('comments')
+        ->withCount('comments')
+        ->find($id);
     }
 
     public function create(array $data): Post

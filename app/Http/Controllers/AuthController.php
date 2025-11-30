@@ -42,6 +42,7 @@ class AuthController extends Controller
     {
         try {
             $this->service->logout($request);
+            return response()->json(['message' => 'Вы вышли из аккаунта'], 200);
         } catch (\Exception $e) {
             return response()->json(["message" => "Ошибка выхода" . $e->getMessage(), 500]);
         }
