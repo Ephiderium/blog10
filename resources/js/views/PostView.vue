@@ -22,6 +22,8 @@
         >
             <textarea>{{ comment.body }}</textarea>
         </div>
+        <button @click="like" style="color: crimson;">♥</button>
+        <button @click="dislike(likeId)" style="color: black;">♥</button>
         <p>Количество комментариев: {{ post.comments_count }}</p>
         <p>Количество лайков: {{ post.likes }}</p>
         <p>Комментарии:</p>
@@ -31,6 +33,21 @@
         >
             <p>Автор: {{ comment.author }} </p>
             <p>{{ comment.body }}</p>
+            <button @click="deleteComment(comment.id)">Удалить</button>
+            <button @click="switchUpdateComment = true">Обновить</button>
+            <div v-if="switchUpdateComment">
+                    <form @submit.prevent="updateComment(comment.id, bodyCommentUpdate)">
+                        <input v-model="bodyCommentUpdate" placeholder="Введите текст"></input>
+                        <button type="submit">Применить</button>
+                    </form>
+            </div>
+        </div>
+        <div>
+            <p>Создание комментария</p>
+            <form @submit.prevent="createComment()">
+                <input v-model="bodyComment"></input>
+                <button type="submit">Подтвердить</button>
+            </form>
         </div>
     </div>
 </template>
@@ -45,12 +62,52 @@ const post = ref(null);
 const isLoading = ref(false);
 const route = useRoute();
 const postId = route.params.id;
+const model = "post"
+const bodyComment = ref(null)
+const bodyCommentUpdate = ref(null)
+const switchUpdateComment = ref(false);
+const dataLike = reactive({ likeable_id: postId, likeable_type: model})
+const likeId = ref(null);
 
 async function getPost() {
     isLoading.value = true;
     const response = await api.get(`/posts/${postId}`);
     post.value = response.data.data;
     isLoading.value = false;
+}
+
+ function createComment()
+{
+    const dataComment = { model_id: postId, model_type: model, body: bodyComment.value, category: 'PHP' }
+    const response_cc = api.post('/comments', dataComment)
+}
+
+ function updateComment(id, body)
+{
+    const data = { body: body }
+    const response_uc = api.patch('/comments/' + id, data)
+    switchUpdateComment.value = false
+}
+
+ function deleteComment(id)
+{
+    const response_dc = api.delete('/comments/' + id)
+}
+
+async function like()
+{
+    const response_l = await api.post('/likes', dataLike)
+    likeId.value = response_l.data.data.id
+}
+
+async function dislike(id)
+{
+    if (id != null) {
+    const response_dl = await api.delete('/likes/' + id)
+    console.log(response_dl)
+    } else {
+        console.log('Нет id')
+    }
 }
 
 onMounted(async () => {

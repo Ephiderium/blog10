@@ -17,7 +17,7 @@ class LikeController extends Controller
     {
         try {
             $dto = LikeDTO::fromRequest($request);
-            return $this->service->create($dto);
+            return response()->json(['data' => $this->service->create($dto)]);
         } catch (\Exception $e) {
             return response()->json(['message' => "Ошибка создания лайка" . $e->getMessage()],500);
         }
